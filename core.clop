@@ -1,0 +1,14 @@
+(def defmacro (m4 (name)
+                  (list 'def name
+                        (cons 'm4 (cdr args)))))
+
+(defmacro defn (name)
+  (list 'def name
+        (cons 'fn (cdr args))))
+
+(defn factorial (n)
+  (if (< n 2)
+    1
+    (* n (factorial (- n 1)))))
+
+(princ (factorial 8))
