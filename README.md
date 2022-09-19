@@ -8,11 +8,21 @@ A Tiny Lisp in Lisp (`Emacs Lisp`, `Common Lisp` etc.)
 
 这就像“上帝说要有光，于是就有了光”一样，上帝创造了最基本的东西，它们通过组合又造就了欣欣向荣的大千世界。实现`Linsp`会让你有上帝的感觉。
 
+## factorial.linsp
+
+用`Linsp`实现的递归求阶乘
+
 ## linsp.el
 
 用`Emacs Lisp`实现的`Lisp`解释器
 
 为证明`Linsp`是一门与`Emacs Lisp`不同的`Lisp`，`Linsp`使用`Lisp-1`，并且支持闭包。
+
+### Usage
+
+```sh
+emacs -Q --script linsp.el factorial.linsp
+```
 
 ## linsp.lisp
 
@@ -20,6 +30,8 @@ A Tiny Lisp in Lisp (`Emacs Lisp`, `Common Lisp` etc.)
 
 功能与`Emacs Lisp`版完全一样，但拥有比后者更好的性能！
 
-## factorial.linsp
+### Usage
 
-用`Linsp`实现的递归求阶乘
+```sh
+clisp -q linsp.lisp factorial.linsp
+```
