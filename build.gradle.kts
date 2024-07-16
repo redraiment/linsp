@@ -4,13 +4,10 @@ plugins {
 
 group = "me.zzp"
 version = "1.0.0-SNAPSHOT"
+description = "Lisp in Lisp"
 
 repositories {
     mavenLocal()
-    // maven(url = "http://mirrors.cloud.tencent.com/nexus/repository/maven-public")
-    // maven(url = "https://maven.aliyun.com/repository/central")
-    maven(url = "https://maven.aliyun.com/repository/public")
-    // maven(url = "https://maven.aliyun.com/repository/gradle-plugin")
     mavenCentral()
 }
 
@@ -34,8 +31,13 @@ kotlin {
             }
         }
     }
+
     sourceSets {
-        val nativeMain by getting
+        val nativeMain by getting {
+            dependencies {
+                implementation(zzp.utils.clikt)
+            }
+        }
         val nativeTest by getting
     }
 }

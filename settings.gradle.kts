@@ -1,4 +1,4 @@
-rootProject.name = System.getProperty("user.dir").substringAfterLast(File.separator)
+rootProject.name = "linsp"
 
 dependencyResolutionManagement {
     versionCatalogs {
