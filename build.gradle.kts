@@ -27,7 +27,7 @@ kotlin {
     nativeTarget.apply {
         binaries {
             executable {
-                entryPoint = "me.zzp.main"
+                entryPoint = "me.zzp.linsp.main"
             }
         }
     }

@@ -1,12 +1,12 @@
-package me.zzp.interpreter
+package me.zzp.linsp.interpreter
 
-import me.zzp.interpreter.Expression.Atom
-import me.zzp.interpreter.Expression.Atom.Companion.nil
-import me.zzp.interpreter.Expression.Cell
-import me.zzp.interpreter.Token.Identifier
-import me.zzp.interpreter.Token.Literal.CloseBracket
-import me.zzp.interpreter.Token.Literal.OpenBracket
-import me.zzp.interpreter.Token.Literal.Quote
+import me.zzp.linsp.interpreter.Expression.Atom
+import me.zzp.linsp.interpreter.Expression.Atom.Companion.nil
+import me.zzp.linsp.interpreter.Expression.Cell
+import me.zzp.linsp.interpreter.Token.Identifier
+import me.zzp.linsp.interpreter.Token.Literal.CloseBracket
+import me.zzp.linsp.interpreter.Token.Literal.OpenBracket
+import me.zzp.linsp.interpreter.Token.Literal.Quote
 
 /**
  * 语法解析器。

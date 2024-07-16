@@ -1,4 +1,4 @@
-package me.zzp.helper
+package me.zzp.linsp.helper
 
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.refTo

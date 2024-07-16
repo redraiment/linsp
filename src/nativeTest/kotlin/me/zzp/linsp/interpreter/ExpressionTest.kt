@@ -1,9 +1,9 @@
-package me.zzp.interpreter
+package me.zzp.linsp.interpreter
 
-import me.zzp.interpreter.Expression.Atom
-import me.zzp.interpreter.Expression.Atom.Companion.nil
-import me.zzp.interpreter.Expression.Atom.Companion.t
-import me.zzp.interpreter.Expression.Cell
+import me.zzp.linsp.interpreter.Expression.Atom
+import me.zzp.linsp.interpreter.Expression.Atom.Companion.nil
+import me.zzp.linsp.interpreter.Expression.Atom.Companion.t
+import me.zzp.linsp.interpreter.Expression.Cell
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

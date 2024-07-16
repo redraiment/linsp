@@ -1,7 +1,7 @@
-package me.zzp.interpreter
+package me.zzp.linsp.interpreter
 
-import me.zzp.interpreter.Token.Identifier
-import me.zzp.interpreter.Token.Literal
+import me.zzp.linsp.interpreter.Token.Identifier
+import me.zzp.linsp.interpreter.Token.Literal
 
 /**
  * 词法解析器。

@@ -1,4 +1,4 @@
-package me.zzp.interpreter
+package me.zzp.linsp.interpreter
 
 /**
  * 变量绑定（作用域）。

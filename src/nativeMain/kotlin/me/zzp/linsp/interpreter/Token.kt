@@ -1,4 +1,4 @@
-package me.zzp.interpreter
+package me.zzp.linsp.interpreter
 
 /**
  * 词法解析后的标记。

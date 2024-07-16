@@ -1,6 +1,6 @@
-package me.zzp.interpreter
+package me.zzp.linsp.interpreter
 
-import me.zzp.interpreter.Expression.Atom
+import me.zzp.linsp.interpreter.Expression.Atom
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.fail
