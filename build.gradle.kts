@@ -35,6 +35,8 @@ kotlin {
     sourceSets {
         val nativeMain by getting {
             dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-io-core:0.5.1")
+                implementation("com.github.ajalt.clikt:clikt:4.4.0")
             }
         }
         val nativeTest by getting
