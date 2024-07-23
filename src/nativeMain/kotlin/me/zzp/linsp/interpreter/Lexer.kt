@@ -4,46 +4,78 @@ import me.zzp.linsp.interpreter.Token.Identifier
 import me.zzp.linsp.interpreter.Token.Literal
 
 /**
- * 词法解析器。
+ * The Lexer class is responsible for converting a string of source code into a sequence of tokens.
+ * It implements the Iterator interface to provide a stream of Token objects.
  */
 data class Lexer(
+
     /**
-     * 完整的源代码。
+     * The source code to be tokenized.
      */
     private val code: String
 ) : Iterator<Token> {
 
-    companion object {
-        val literals = Literal.entries.associateBy { it.token }
-    }
-
     /**
-     * 下一个将读取的字符的下标。
+     * The index pointing to the beginning of the next token to be read.
      */
     private var index = 0
 
     /**
-     * 是否还有剩余的Token。
+     * Indicates whether the end of the file (EOF) has been reached.
+     */
+    private val eof: Boolean get() = index >= code.length
+
+    /**
+     * The current character at the pointer's position in the source code.
+     */
+    private val character: Char get() = code[index]
+
+    /**
+     * Determines if there are more tokens available after skipping any leading whitespace.
      */
     override fun hasNext(): Boolean {
-        while (index < code.length && code[index].isWhitespace()) {
-            // 跳过空白字符
-            index++
-        }
-        return index < code.length
+        readWhitespaces()
+        return !eof
     }
 
     /**
-     * 获取下一个标记。
+     * Retrieves the next available token, which can be either a [Literal] or an [Identifier].
      */
-    override fun next(): Token {
-        val source = index++ // 第一个非空字符
-        if (code[source] in literals) { // 单字符字面量标记。
-            return literals[code[source]]!!
+    override fun next(): Token = readLiteral() ?: readIdentifier()
+
+    /**
+     * Advances the pointer to the next character in the source code.
+     */
+    private fun readCharacter(): Char = code[index++]
+
+    /**
+     * Advances the pointer past any whitespace characters
+     * until a non-whitespace character is encountered.
+     */
+    private fun readWhitespaces() {
+        while (!eof && character.isWhitespace()) {
+            readCharacter()
         }
-        while (index < code.length && code[index] !in literals && !code[index].isWhitespace()) {
-            index++
+    }
+
+    /**
+     * Constructs and returns a Literal token if the current character corresponds to a known literal.
+     * Advances the pointer to the next character after reading a literal.
+     */
+    private fun readLiteral(): Literal? = character.toLiteralOrNull()?.also {
+        readCharacter()
+    }
+
+    /**
+     * Constructs and returns an Identifier token from the current position in the source code.
+     * The pointer is advanced to the end of the identifier.
+     */
+    private fun readIdentifier(): Identifier {
+        val source = index
+        while (!eof && character.isIdentifier()) {
+            readCharacter()
         }
-        return Identifier(code.substring(source, index)) // 否则，是标识符标记。
+        val target = index
+        return Identifier(code.substring(source, target))
     }
 }
