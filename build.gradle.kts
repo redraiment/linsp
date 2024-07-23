@@ -1,5 +1,5 @@
 plugins {
-    alias(zzp.plugins.kotlin.multiplatform)
+    kotlin("multiplatform") version "2.0.0"
 }
 
 group = "me.zzp"
@@ -35,7 +35,6 @@ kotlin {
     sourceSets {
         val nativeMain by getting {
             dependencies {
-                implementation(zzp.utils.clikt)
             }
         }
         val nativeTest by getting
