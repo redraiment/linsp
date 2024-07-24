@@ -14,14 +14,17 @@ import me.zzp.linsp.interpreter.Expression.Atom.Companion.t
 import me.zzp.linsp.interpreter.Lexer
 import me.zzp.linsp.interpreter.Parser
 
+/**
+ * The main entry point of the Lisp interpreter.
+ */
 object Application : CliktCommand(
     name = "linsp",
-    help = "A Lisp interpreter implemented in Kotlin/Native.",
+    help = "A lightweight Lisp interpreter designed for cross-platform compatibility using Kotlin/Native.",
     epilog = "E-mail bug reports to: <redraiment@gmail.com>."
 ) {
 
     /**
-     * Source Code from script file.
+     * Holds the source code read from the provided script file.
      */
     private val code: String by argument("script-file")
         .convert {
@@ -32,6 +35,10 @@ object Application : CliktCommand(
             }
         }
 
+    /**
+     * Initializes the environment with predefined bindings and evaluates
+     * the parsed expressions from the source code.
+     */
     override fun run() {
         val bindings = Bindings(
             "t" to t,
@@ -43,6 +50,9 @@ object Application : CliktCommand(
     }
 }
 
+/**
+ * Execute the command-line interface with the given arguments.
+ */
 fun main(args: Array<String>) = Application
     .versionOption("1.0.0")
     .main(args)
