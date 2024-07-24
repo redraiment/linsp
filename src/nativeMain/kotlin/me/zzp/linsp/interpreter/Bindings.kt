@@ -1,36 +1,39 @@
 package me.zzp.linsp.interpreter
 
 /**
- * 变量绑定（作用域）。
+ * Represents a scope of variable bindings within the environment.
  */
 data class Bindings(
+
     /**
-     * 上级作用域。
+     * The enclosing (parent) scope from which this scope inherits bindings.
      */
     private val parent: Bindings? = null,
 ) {
+
     /**
-     * 当前作用域。
+     * The local context or scope that holds the variable bindings specific to this environment level.
      */
     private val context = mutableMapOf<String, Expression>()
 
     /**
-     * 方便的初始化方法。
+     * A convenient constructor for creating a Bindings instance with an initial set of variable bindings.
      */
     constructor(vararg pairs: Pair<String, Expression>, parent: Bindings? = null) : this(parent) {
         context.putAll(pairs)
     }
 
     /**
-     * 先尝试从当前作用域获取。
-     * 若获取不到，则从上级作用域获取。
-     * 若仍然获取不到，则抛出异常。
+     * Retrieves the value of a variable by [name] from the current scope.
+     *
+     * - If the variable is not found, it attempts to retrieve from the parent scope.
+     * - If the variable is not found in any scope, it throws a [NoSuchElementException].
      */
     operator fun get(name: String): Expression =
         context[name] ?: parent?.get(name) ?: throw NoSuchElementException(name)
 
     /**
-     * 在当前作用域中添加变量值。
+     * Sets the [expression] value of a [name] variable in the current scope.
      */
     operator fun set(name: String, expression: Expression) {
         context[name] = expression

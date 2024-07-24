@@ -6,17 +6,14 @@ import kotlin.test.assertEquals
 import kotlin.test.fail
 
 /**
- * 测试Bindings。
+ * Test [Bindings] class.
  */
 class BindingsTest {
 
-    /**
-     * 当变量缺失时抛出异常。
-     */
     @Test
-    fun testMissing() {
+    fun `test undefined`() {
         val bindings = Bindings()
-        val name = "MISSING"
+        val name = "UNDEFINED"
         try {
             println(bindings[name])
             fail("Never been there")
@@ -25,28 +22,23 @@ class BindingsTest {
         }
     }
 
-    /**
-     * 添加了变量后能成功获取。
-     */
     @Test
-    fun testGetAfterSet() {
+    fun `test get from current scope`() {
         val bindings = Bindings()
-        val name = "name"
+        val name = "user-name"
         val expected = Atom("Joe")
         bindings[name] = expected
         assertEquals(expected, bindings[name])
     }
 
-    /**
-     * 在父级作用域内添加了变量后，也能成功获取。
-     */
     @Test
-    fun testGetAfterSetParent() {
+    fun `test get from parent scope`() {
         val parent = Bindings()
-        val bindings = Bindings(parent)
-        val name = "name"
+        val name = "user-name"
         val expected = Atom("Joe")
         parent[name] = expected
+
+        val bindings = Bindings(parent)
         assertEquals(expected, bindings[name])
     }
 }
