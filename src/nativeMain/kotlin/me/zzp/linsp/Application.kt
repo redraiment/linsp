@@ -8,10 +8,7 @@ import kotlinx.io.buffered
 import kotlinx.io.files.Path
 import kotlinx.io.files.SystemFileSystem
 import kotlinx.io.readString
-import me.zzp.linsp.interpreter.Bindings
 import me.zzp.linsp.interpreter.Executor
-import me.zzp.linsp.interpreter.Expression.Atom.Companion.nil
-import me.zzp.linsp.interpreter.Expression.Atom.Companion.t
 import me.zzp.linsp.interpreter.Formatter
 import me.zzp.linsp.interpreter.Reader
 
@@ -41,13 +38,9 @@ object Application : CliktCommand(
      * the parsed expressions from the source code.
      */
     override fun run() {
-        val bindings = Bindings(
-            "t" to t,
-            "nil" to nil,
-        )
         // REPL
         Reader(code).forEach { expression ->
-            val value = Executor.eval(expression, bindings)
+            val value = Executor.eval(expression)
             val representation = Formatter.format(value)
             echo(representation)
         }

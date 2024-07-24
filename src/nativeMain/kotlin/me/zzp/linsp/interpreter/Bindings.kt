@@ -1,5 +1,8 @@
 package me.zzp.linsp.interpreter
 
+import me.zzp.linsp.interpreter.Expression.Atom.Companion.nil
+import me.zzp.linsp.interpreter.Expression.Atom.Companion.t
+
 /**
  * Represents a scope of variable bindings within the environment.
  */
@@ -37,5 +40,18 @@ data class Bindings(
      */
     operator fun set(name: String, expression: Expression) {
         context[name] = expression
+    }
+
+    companion object {
+
+        /**
+         * The global environment of the Lisp interpreter, containing predefined
+         * bindings that are available throughout the execution of the interpreter.
+         * The global environment serves as the outermost scope from which all other local scopes inherit.
+         */
+        val GLOBAL = Bindings(
+            "t" to t,
+            "nil" to nil,
+        )
     }
 }
