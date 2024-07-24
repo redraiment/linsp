@@ -41,7 +41,12 @@ data class Lexer(
     /**
      * Retrieves the next available token, which can be either a [Literal] or an [Identifier].
      */
-    override fun next(): Token = readLiteral() ?: readIdentifier()
+    override fun next(): Token =
+        if (hasNext()) {
+            readLiteral() ?: readIdentifier()
+        } else {
+            error("Unexpected end of file reached.")
+        }
 
     /**
      * Advances the pointer to the next character in the source code.

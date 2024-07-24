@@ -9,10 +9,11 @@ import kotlinx.io.files.Path
 import kotlinx.io.files.SystemFileSystem
 import kotlinx.io.readString
 import me.zzp.linsp.interpreter.Bindings
+import me.zzp.linsp.interpreter.Executor
 import me.zzp.linsp.interpreter.Expression.Atom.Companion.nil
 import me.zzp.linsp.interpreter.Expression.Atom.Companion.t
-import me.zzp.linsp.interpreter.Lexer
-import me.zzp.linsp.interpreter.Parser
+import me.zzp.linsp.interpreter.Formatter
+import me.zzp.linsp.interpreter.Reader
 
 /**
  * The main entry point of the Lisp interpreter.
@@ -44,8 +45,11 @@ object Application : CliktCommand(
             "t" to t,
             "nil" to nil,
         )
-        Parser(Lexer(code)).forEach {
-            echo(it.eval(bindings))
+        // REPL
+        Reader(code).forEach { expression ->
+            val value = Executor.eval(expression, bindings)
+            val representation = Formatter.format(value)
+            echo(representation)
         }
     }
 }
