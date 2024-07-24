@@ -42,15 +42,75 @@ class ExecutorTest {
     }
 
     @Test
+    fun `test define variable`() {
+        assertExpression(Atom("Joe"), """
+            (define name 'Joe)
+            name
+        """.trimIndent())
+    }
+
+    @Test
+    fun `test nested define`() {
+        try {
+            eval(Reader("""
+                (define set-value
+                  (lambda ()
+                    (define value '1)))
+                (set-value)
+                value
+            """.trimIndent()).next())
+        } catch (e: NoSuchElementException) {
+            assertEquals("value", e.message)
+        }
+    }
+
+    @Test
+    fun `test lexical scope`() {
+        assertExpression(Atom("outer"), """
+            (define value 'outer)
+            (define overwrite-value
+              (lambda ()
+                (define value 'inner)))
+            (overwrite-value)
+            value
+        """.trimIndent())
+
+        assertExpression(Atom("inner"), """
+            (define value 'outer)
+            (define overwrite-value
+              (lambda ()
+                (define value 'inner)
+                value))
+            (overwrite-value)
+        """.trimIndent())
+    }
+
+    @Test
+    fun `test define recursive lambda`() {
+        assertExpression(list(Atom("C"), Atom("B"), Atom("A")), """
+            (define reverse
+              (lambda (values)
+                (define iterate
+                  (lambda (source target)
+                    (cond
+                      ((eq source nil) target)
+                      (t (iterate (cdr source) (cons (car source) target))))))
+                (iterate values nil)))
+
+            (reverse '(A B C))
+        """.trimIndent())
+    }
+
+    @Test
     fun `test lambda expression`() {
         val lambda = eval(Reader("(lambda (name) (cons 'Hello name))").next())
         assertTrue(lambda is Lambda)
         assertExpressionEquals(list(Atom("name")), lambda.parameters)
-        assertExpressionEquals(list(
+        assertExpressionEquals(list(list(
             Atom("cons"),
             list(Atom("quote"), Atom("Hello")),
             Atom("name"),
-        ), lambda.body)
+        )), lambda.body)
         assertSame(Bindings.GLOBAL, lambda.bindings)
     }
 
@@ -169,7 +229,11 @@ class ExecutorTest {
     }
 
     private fun assertExpression(expected: Expression, code: String, bindings: Bindings = Bindings.GLOBAL) {
-        val actual = eval(Reader(code).next(), bindings)
+        var actual: Expression = nil
+        val reader = Reader(code)
+        while (reader.hasNext()) {
+            actual = eval(reader.next(), bindings)
+        }
         assertExpressionEquals(expected, actual)
     }
 

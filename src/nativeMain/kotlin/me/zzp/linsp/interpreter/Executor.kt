@@ -72,7 +72,18 @@ object Executor {
         }
 
         // Evaluate the body of the lambda within the closure context.
-        return eval(lambda.body, context)
+        var result: Expression = nil
+        var body = lambda.body
+        while (!body.isNil()) {
+            if (body is Cons) {
+                result = eval(body.car, context)
+                body = body.cdr
+            } else {
+                result = eval(body, context)
+                break
+            }
+        }
+        return result // returns the latest value
     }
 
     /**
@@ -81,6 +92,7 @@ object Executor {
      */
     private fun eval(name: String, arguments: Expression, bindings: Bindings): Expression =
         when (name) {
+            "define" -> define(arguments, bindings)
             "lambda" -> closure(arguments, bindings)
             // Seven Special Forms.
             "quote" -> quote(arguments)
@@ -97,6 +109,20 @@ object Executor {
     // Lambda.
 
     /**
+     * Create a new variable binding or to update an existing one.
+     */
+    private fun define(arguments: Expression, bindings: Bindings): Expression {
+        val (variable, expression) = binary(arguments)
+        return if (variable is Atom) {
+            eval(expression, bindings).also {
+                bindings[variable.name] = it
+            }
+        } else {
+            error("Invalid variable name in define: expected an Atom, found ${variable::class.simpleName}")
+        }
+    }
+
+    /**
      * Creates a lambda expression, which represents an anonymous function with its associated closure.
      * In Lisp, a lambda expression is a way to define a function inline with its parameters and body.
      *
@@ -108,10 +134,7 @@ object Executor {
      */
     private fun closure(function: Expression, bindings: Bindings): Expression =
         if (function is Cons && function.cdr is Cons) {
-            // Ensures the lambda body consists of a single expression.
-            // In Lisp, the body of a lambda can be a single expression or a sequence of expressions,
-            // but this implementation restricts it to a single expression for simplicity.
-            Lambda(function.car, function.cdr.car, bindings)
+            Lambda(function.car, function.cdr, bindings)
         } else {
             error("invalid lambda expression: both an argument list and a body are required")
         }

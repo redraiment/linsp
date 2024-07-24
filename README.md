@@ -1,14 +1,47 @@
 # Linsp
 
-用Kotlin/Native先实现一个超轻量级的`Lisp`解释器，这个解释器只提供了在Paul Graham的《[The Root of Lisp](http://www.paulgraham.com/rootsoflisp.html)》文章中提到的7个原子操作，即`quote`、`atom`、`eq`、`car`、`cdr`、`cons`、`cond`，外加`lambda`支持。然后在`main.linsp`中用这七个原子操作与`lambda`实现一门新的Lisp语言，提供不一样的操作符，如`first`、`second`、`next`、`=`、`if`等。
+**Lisp in Lisp** - A minimalistic Lisp interpreter crafted with Kotlin/Native, Linsp provides the foundational operations described by Paul Graham in his seminal article *[The Root of Lisp](http://www.paulgraham.com/rootsoflisp.html)*. This interpreter offers the seven atomic operations: `quote`, `atom`, `eq`, `car`, `cdr`, `cons`, and `cond`, along with support for `lambda`.
 
-这种方法与PyPy很像。等后续有时间我再详细介绍如何实现Linsp。
+### Key Features
 
-# Quick Start
+- **Minimalistic Design**: Linsp is built with simplicity in mind, focusing on the core principles of Lisp.
+- **Lambda Support**: Enables the creation of anonymous functions with lexical scope.
+- **Extended Functionality**: Beyond the seven atomic operations, Linsp introduces new operators such as `first`, `second`, `next`, `=`, and `if`, enriching the language's capabilities.
 
-```sh
-git clone https://github.com/redraiment/linsp.git
-cd linsp
-./gradlew linkNative
-build/bin/native/releaseExecutable/linsp.kexe main.linsp
-```
+### Quick Start
+
+To get started with Linsp, follow these simple steps:
+
+1. Clone the Linsp repository:
+   ```sh
+   git clone https://github.com/redraiment/linsp.git
+   ```
+2. Change to the Linsp directory:
+    ```sh
+    cd linsp
+    ```
+3. Build and link the native executable using Gradle:
+    ```sh
+    ./gradlew linkNative
+    ```
+4. Run the Linsp interpreter with the main script:
+    ```sh
+    build/bin/native/releaseExecutable/linsp.kexe main.linsp
+    ```
+
+### Approach
+
+The development approach of Linsp is reminiscent of PyPy, focusing on a clean
+and efficient implementation. Further details on the implementation will be
+provided in future updates.
+
+### Contributing
+
+We welcome contributions to Linsp! For bug reports, feature requests, or questions,
+please create an issue or submit a pull request.
+
+### License
+
+Linsp is open-source software, released under the MIT License.
+
+Feel free to explore, learn, and extend the Linsp interpreter to suit your needs.
